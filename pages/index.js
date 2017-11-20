@@ -6,13 +6,13 @@ import InfiniteScroll from 'react-infinite-scroller';
 import superagent from 'superagent'
 import { get as _get, merge as _merge, set as _set, range as _range } from 'lodash'
 
-
 export default class Lazyload extends Component {
 
   constructor(props) {
     super(props)
     this._loadMore = this._loadMore.bind(this)
     this._handleSubParagraph = this._handleSubParagraph.bind(this)
+    this._handleNextPage = this._handleNextPage.bind(this)
     this.state = {
       transcript: {},
       hasMore: true,
@@ -60,6 +60,15 @@ export default class Lazyload extends Component {
     
   }
 
+  _handleNextPage(e) {
+    e.preventDefault()
+    let { currentPage, hasMore } = this.state,
+        nextPage = currentPage + 1
+    if (nextPage && hasMore)
+      _this.loadMore(nextPage)
+
+  }
+
   render() {
 
     let { pageStart } = this.props,
@@ -72,18 +81,21 @@ export default class Lazyload extends Component {
         <Head>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta charSet="utf-8" />
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous" />
         </Head>
 
-        <div id="content">
+        <div id="content" className="p-4">
           <h1>Transcript</h1>
-          <div>
+          <div className="p-4">
             <InfiniteScroll pageStart={pageStart} loadMore={this._loadMore} hasMore={hasMore} loader={Loader}>
               <div>
               { _range(0, currentPage + 1).reduce((accu, value) => accu.concat(this._handleSubParagraph(value)), []) }
               </div>
             </InfiniteScroll>
           </div>
-          <button></button>
+          <div className="text-center">
+            <button onClick={this._handleNextPage} className="btn btn-info">Next Page</button>
+          </div>
         </div>
       </div>
     )
