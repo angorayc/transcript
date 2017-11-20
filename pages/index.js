@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Head from "next/head";
-import LazyLoadTranscript from '../components/lazyLoadTranscript';
 import Loader from '../components/loader';
 import InfiniteScroll from 'react-infinite-scroller';
 import superagent from 'superagent'
@@ -61,16 +60,15 @@ export default class Lazyload extends Component {
   }
 
   _handleNextPage(e) {
-    e.preventDefault()
+    e && e.preventDefault()
     let { currentPage, hasMore } = this.state,
         nextPage = currentPage + 1
     if (nextPage && hasMore)
-      _this.loadMore(nextPage)
+      this._loadMore(nextPage)
 
   }
 
   render() {
-
     let { pageStart } = this.props,
         { transcript, hasMore, currentPage } = this.state,
         subPara,
