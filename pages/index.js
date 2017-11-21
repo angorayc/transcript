@@ -86,7 +86,7 @@ export default class Lazyload extends Component {
           <h1>Transcript</h1>
           <div className="p-4">
             <InfiniteScroll pageStart={pageStart} loadMore={this._loadMore} hasMore={hasMore} loader={Loader}>
-              <div>
+              <div className="list-para">
               { _range(0, currentPage + 1).reduce((accu, value) => accu.concat(this._handleSubParagraph(value)), []) }
               </div>
             </InfiniteScroll>
